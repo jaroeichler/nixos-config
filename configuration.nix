@@ -103,6 +103,10 @@
             vi = "nvim";
           };
         };
+        bat = {
+          enable = true;
+          config.theme = "GitHub";
+        };
         direnv = {
           enable = true;
           nix-direnv.enable = true;
