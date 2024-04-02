@@ -42,6 +42,11 @@
   time.timeZone = "Europe/Berlin";
   # Allow unfree packages on system-level.
   nixpkgs.config.allowUnfree = true;
+  # Enable flakes.
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # Needed for sway.
   hardware.opengl.enable = true;
   # Packages.
@@ -97,6 +102,10 @@
             top = "btm --color default-light";
             vi = "nvim";
           };
+        };
+        direnv = {
+          enable = true;
+          nix-direnv.enable = true;
         };
         foot = {
           enable = true;
