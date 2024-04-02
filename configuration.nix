@@ -254,6 +254,14 @@
               set shiftwidth=4
               set tabstop=4
             '';
+          extraLuaConfig =
+            ''
+              vim.filetype.add({
+                extension = {
+                  typ = 'typst',
+                },
+              })
+            '';
           plugins = with pkgs.vimPlugins; [
             {
               plugin = ale;
