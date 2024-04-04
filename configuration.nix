@@ -82,6 +82,7 @@
           cmus
           google-chrome
           hack-font
+          noto-fonts
         ];
         stateVersion = "23.11";
       };
@@ -194,16 +195,6 @@
             url-bindings = {
               cancel = "none";
               toggle-url-visible = "none";
-            };
-            mouse-bindings = {
-              selection-override-modifiers = "none";
-              primary-paste = "none";
-              select-begin = "BTN_LEFT";
-              select-begin-block = "none";
-              select-extend = "BTN_RIGHT";
-              select-extend-character-wise = "none";
-              select-word = "BTN_LEFT-2";
-              select-word-whitespace = "none";
             };
           };
         };
