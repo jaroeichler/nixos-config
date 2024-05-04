@@ -235,10 +235,16 @@
           enable = true;
           extraConfig =
             ''
-              autocmd FileType nix setlocal ts=2 sw=2
+              autocmd FileType nix setlocal sw=2 ts=2
+              autocmd FileType typst setlocal sw=2 ts=2
               filetype plugin indent on
               highlight colorcolumn ctermbg=white
               highlight visual ctermbg=white
+              noremap <A-Down> :bd<CR>
+              noremap <A-Left> :bp<CR>
+              noremap <A-Right> :bn<CR>
+              noremap <A-Up> :write<CR>
+              noremap <F8> 081l<S-f><Space>r<Enter>
               set clipboard=unnamedplus
               set colorcolumn=81
               set expandtab
