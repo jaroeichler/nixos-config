@@ -263,6 +263,7 @@
               set clipboard=unnamedplus
               set colorcolumn=81
               set expandtab
+              set notermguicolors
               set shiftwidth=4
               set tabstop=4
             '';
