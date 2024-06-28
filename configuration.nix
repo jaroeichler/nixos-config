@@ -48,12 +48,29 @@
     "flakes"
   ];
   # Needed for sway.
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
+  # Bluetooth.
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = "true";
+        FastConnectable = "true";
+      };
+    };
+  };
+  hardware.xpadneo.enable = true;
   # Packages.
   programs.neovim = {
     defaultEditor = true;
     enable = true;
     viAlias = true;
+  };
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
   environment.systemPackages = with pkgs; [
     bat
@@ -96,9 +113,7 @@
               }
               export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
             '';
-          sessionVariables = {
-            LOL = "test";
-          };
+          sessionVariables = {};
           shellAliases = {
             top = "btm --color default-light";
             vi = "nvim";
