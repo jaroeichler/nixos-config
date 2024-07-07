@@ -255,11 +255,11 @@
               filetype plugin indent on
               highlight colorcolumn ctermbg=white
               highlight visual ctermbg=white
-              noremap <A-Down> :bd<CR>
-              noremap <A-Left> :bp<CR>
-              noremap <A-Right> :bn<CR>
-              noremap <A-Up> :write<CR>
-              noremap <F8> 081l<S-f><Space>r<Enter>
+              noremap <D-h> :bd<CR>
+              noremap <D-j> :bp<CR>
+              noremap <D-k> :bn<CR>
+              noremap <D-l> :write<CR>
+              noremap <D-\> 081l<S-f><Space>r<Enter>
               set clipboard=unnamedplus
               set colorcolumn=81
               set expandtab
@@ -358,36 +358,36 @@
           floating.border = 0;
           keybindings = {
             # Basics.
-            "Mod4+q" = "kill";
-            "Mod4+d" = "exec google-chrome-stable";
-            "Mod4+Return" = "exec foot";
-            "Mod4+Shift+e" = "exec swaymsg exit";
+            "Mod1+q" = "kill";
+            "Mod1+d" = "exec google-chrome-stable";
+            "Mod1+Return" = "exec foot";
+            "Mod1+Shift+e" = "exec swaymsg exit";
             # Moving.
-            "Mod4+j" = "focus left";
-            "Mod4+k" = "focus right";
-            "Mod4+Shift+j" = "move left";
-            "Mod4+Shift+k" = "move right";
+            "Mod1+j" = "focus left";
+            "Mod1+k" = "focus right";
+            "Mod1+Shift+j" = "move left";
+            "Mod1+Shift+k" = "move right";
             # Workspaces.
-            "Mod4+1" = "workspace number 1";
-            "Mod4+2" = "workspace number 2";
-            "Mod4+3" = "workspace number 3";
-            "Mod4+4" = "workspace number 4";
-            "Mod4+5" = "workspace number 5";
-            "Mod4+6" = "workspace number 6";
-            "Mod4+7" = "workspace number 7";
-            "Mod4+8" = "workspace number 8";
-            "Mod4+9" = "workspace number 9";
-            "Mod4+0" = "workspace number 10";
-            "Mod4+Shift+1" = "move container to workspace number 1";
-            "Mod4+Shift+2" = "move container to workspace number 2";
-            "Mod4+Shift+3" = "move container to workspace number 3";
-            "Mod4+Shift+4" = "move container to workspace number 4";
-            "Mod4+Shift+5" = "move container to workspace number 5";
-            "Mod4+Shift+6" = "move container to workspace number 6";
-            "Mod4+Shift+7" = "move container to workspace number 7";
-            "Mod4+Shift+8" = "move container to workspace number 8";
-            "Mod4+Shift+9" = "move container to workspace number 9";
-            "Mod4+Shift+0" = "move container to workspace number 10";
+            "Mod1+1" = "workspace number 1";
+            "Mod1+2" = "workspace number 2";
+            "Mod1+3" = "workspace number 3";
+            "Mod1+4" = "workspace number 4";
+            "Mod1+5" = "workspace number 5";
+            "Mod1+6" = "workspace number 6";
+            "Mod1+7" = "workspace number 7";
+            "Mod1+8" = "workspace number 8";
+            "Mod1+9" = "workspace number 9";
+            "Mod1+0" = "workspace number 10";
+            "Mod1+Shift+1" = "move container to workspace number 1";
+            "Mod1+Shift+2" = "move container to workspace number 2";
+            "Mod1+Shift+3" = "move container to workspace number 3";
+            "Mod1+Shift+4" = "move container to workspace number 4";
+            "Mod1+Shift+5" = "move container to workspace number 5";
+            "Mod1+Shift+6" = "move container to workspace number 6";
+            "Mod1+Shift+7" = "move container to workspace number 7";
+            "Mod1+Shift+8" = "move container to workspace number 8";
+            "Mod1+Shift+9" = "move container to workspace number 9";
+            "Mod1+Shift+0" = "move container to workspace number 10";
           };
           window = {
             border = 0;
