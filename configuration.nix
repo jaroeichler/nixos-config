@@ -1,9 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{config, lib, pkgs, ...}:
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     /etc/nixos/hardware-configuration.nix
@@ -47,20 +49,20 @@
     "nix-command"
     "flakes"
   ];
-  # Needed for sway.
-  hardware.graphics.enable = true;
-  # Bluetooth.
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        Experimental = "true";
-        FastConnectable = "true";
+  hardware = {
+    graphics.enable = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings = {
+        General = {
+          Experimental = "true";
+          FastConnectable = "true";
+        };
       };
     };
+    xpadneo.enable = true;
   };
-  hardware.xpadneo.enable = true;
   # Packages.
   programs.neovim = {
     defaultEditor = true;
@@ -87,7 +89,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
   };
   # Home manager.
   home-manager = {
@@ -106,13 +108,12 @@
       programs = {
         bash = {
           enable = true;
-          initExtra =
-            ''
-              git_branch() {
-                git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-              }
-              export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
-            '';
+          initExtra = ''
+            git_branch() {
+              git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+            }
+            export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
+          '';
           sessionVariables = {};
           shellAliases = {
             top = "btm --color default-light";
@@ -248,69 +249,65 @@
         };
         neovim = {
           enable = true;
-          extraConfig =
-            ''
-              autocmd FileType nix setlocal sw=2 ts=2
-              autocmd FileType typst setlocal sw=2 ts=2
-              filetype plugin indent on
-              highlight colorcolumn ctermbg=white
-              highlight visual ctermbg=white
-              noremap <D-h> :bd<CR>
-              noremap <D-j> :bp<CR>
-              noremap <D-k> :bn<CR>
-              noremap <D-l> :write<CR>
-              noremap <D-\> 081l<S-f><Space>r<Enter>
-              set clipboard=unnamedplus
-              set colorcolumn=81
-              set expandtab
-              set notermguicolors
-              set shiftwidth=4
-              set tabstop=4
-            '';
-          extraLuaConfig =
-            ''
-              vim.filetype.add({
-                extension = {
-                  typ = 'typst',
-                },
-              })
-            '';
+          extraConfig = ''
+            autocmd FileType nix setlocal sw=2 ts=2
+            autocmd FileType typst setlocal sw=2 ts=2
+            filetype plugin indent on
+            highlight colorcolumn ctermbg=white
+            highlight visual ctermbg=white
+            noremap <D-h> :bd<CR>
+            noremap <D-j> :bp<CR>
+            noremap <D-k> :bn<CR>
+            noremap <D-l> :write<CR>
+            noremap <D-\> 081l<S-f><Space>r<Enter>
+            set clipboard=unnamedplus
+            set colorcolumn=81
+            set expandtab
+            set notermguicolors
+            set shiftwidth=4
+            set tabstop=4
+          '';
+          extraLuaConfig = ''
+            vim.filetype.add({
+              extension = {
+                typ = 'typst',
+              },
+            })
+          '';
           plugins = with pkgs.vimPlugins; [
             {
               plugin = ale;
-              config =
-                ''
-                  highlight aleerror ctermbg=white
-                  highlight aleerrorline ctermbg=lightyellow
-                  highlight alewarning ctermbg=white
-                  highlight alewarningline ctermbg=lightyellow
-                  highlight aleinfo ctermbg=white
-                  highlight aleinfoline ctermbg=lightyellow
-                  let g:ale_set_signs=0
-                  let g:ale_linters = {
-                  \    'cpp': ['clangtidy'],
-                  \}
-                  let g:ale_fixers = {
-                  \    'cpp': ['clangtidy'],
-                  \    'nix': ['nixfmt', 'trim_whitespace'],
-                  \}
-                '';
+              config = ''
+                highlight aleerror ctermbg=white
+                highlight aleerrorline ctermbg=lightyellow
+                highlight alewarning ctermbg=white
+                highlight alewarningline ctermbg=lightyellow
+                highlight aleinfo ctermbg=white
+                highlight aleinfoline ctermbg=lightyellow
+                let g:ale_set_signs=0
+                let g:ale_linters = {
+                \    'cpp': ['clangtidy'],
+                \}
+                let g:ale_fixers = {
+                \    'cpp': ['clangtidy'],
+                \    'nix': ['nixfmt', 'trim_whitespace'],
+                \}
+              '';
             }
             {
               plugin = nvim-treesitter.withAllGrammars;
               type = "lua";
-              config =
-                ''
-                  require'nvim-treesitter.configs'.setup {
-                    highlight = {
-                      additional_vim_regex_highlighting = false,
-                      enable = true,
-                      indent = {
-                        enable = true
-                      }
-                    },
-                  }
-                '';
+              config = ''
+                require'nvim-treesitter.configs'.setup {
+                  highlight = {
+                    additional_vim_regex_highlighting = false,
+                    enable = true,
+                    indent = {
+                      enable = true
+                    }
+                  },
+                }
+              '';
             }
           ];
         };
