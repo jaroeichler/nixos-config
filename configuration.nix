@@ -364,6 +364,10 @@
             "Mod1+k" = "focus right";
             "Mod1+Shift+j" = "move left";
             "Mod1+Shift+k" = "move right";
+            # Volume.
+            "XF86AudioLowerVolume" = "exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-";
+            "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            "XF86AudioRaiseVolume" = "exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
             # Workspaces.
             "Mod1+1" = "workspace number 1";
             "Mod1+2" = "workspace number 2";
