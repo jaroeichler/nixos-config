@@ -13,9 +13,12 @@
   ];
 
   # Boot loader.
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
   # Networking.
   networking = {
@@ -64,15 +67,18 @@
     xpadneo.enable = true;
   };
   # Packages.
-  programs.neovim = {
-    defaultEditor = true;
-    enable = true;
-    viAlias = true;
-  };
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
+  programs = {
+    neovim = {
+      defaultEditor = true;
+      enable = true;
+      viAlias = true;
+    };
+    nix-ld.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
   };
   environment.systemPackages = with pkgs; [
     bat
@@ -127,6 +133,10 @@
         direnv = {
           enable = true;
           nix-direnv.enable = true;
+        };
+        eza = {
+          enable = true;
+          git = true;
         };
         foot = {
           enable = true;
