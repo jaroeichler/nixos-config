@@ -12,17 +12,28 @@
     <home-manager/nixos>
   ];
 
-  # Boot loader.
+  # Boot configuration.
   boot = {
+    # Use the latest stable Linux kernel.
     kernelPackages = pkgs.linuxPackages_latest;
+    # Configure bootloader.
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
     };
   };
-  # Networking.
+
+  # Network configuration.
   networking = {
+    # Firewall settings.
+    firewall = {
+      # Open ports in the firewall if needed.
+      # allowedTCPPorts = [ ... ];
+      # allowedUDPPorts = [ ... ];
+      enable = true;
+    };
     hostName = "home";
+    # Configure wireless networking.
     wireless.iwd = {
       enable = true;
       settings = {
@@ -31,29 +42,33 @@
       };
     };
   };
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-  # Sound.
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-  # Time zone and internationalisation.
+  # Localization settings.
+  i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Berlin";
-  # Allow unfree packages on system-level.
+
+  # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
-  # Enable flakes.
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+
+  # Nix package manager configuration.
+  nix = {
+    # Automatic garbage collection.
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+    settings = {
+      auto-optimise-store = true;
+      # Enable flakes.
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
+
+  # Hardware configuration.
   hardware = {
-    graphics.enable = true;
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -64,9 +79,19 @@
         };
       };
     };
+    graphics.enable = true;
     xpadneo.enable = true;
   };
-  # Packages.
+
+  # Font configuration.
+  fonts.packages = with pkgs; [
+    hack-font
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+  ];
+
+  # System-wide program configuration.
   programs = {
     neovim = {
       defaultEditor = true;
@@ -74,40 +99,57 @@
       viAlias = true;
     };
     nix-ld.enable = true;
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-    };
+    # Uncomment to enable Steam.
+    # steam = {
+    #   enable = true;
+    #   remotePlay.openFirewall = true;
+    #   dedicatedServer.openFirewall = true;
+    # };
   };
+
+  # System-wide packages.
   environment.systemPackages = with pkgs; [
-    bat
-    bottom
-    delta
     fd
     ripgrep
     wl-clipboard
   ];
-  # List services that you want to enable:
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+
+  # System services.
+  services = {
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      openFirewall = true;
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      pulse.enable = true;
+    };
+    # Uncomment to enable printing.
+    # printing.enable = true;
+  };
+
+  # Enable real-time scheduling for Pipewire and Sway.
+  security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
+    # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"];
     isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
   };
-  # Home manager.
+
+  # Home manager configuration.
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
     users.jaro = {
       home = {
         packages = with pkgs; [
+          bottom
           cmus
           google-chrome
-          hack-font
-          noto-fonts
         ];
         stateVersion = "23.11";
       };
