@@ -12,15 +12,14 @@
     initrd = {
       availableKernelModules = [
         "nvme"
-        "xhci_pci"
-        "ahci"
-        "usbhid"
-        "usb_storage"
         "sd_mod"
+        "uas"
+        "usb_storage"
+        "xhci_pci"
       ];
       kernelModules = [];
     };
-    kernelModules = ["kvm-amd"];
+    kernelModules = ["kvm-intel"];
     extraModulePackages = [];
   };
 
@@ -36,7 +35,7 @@
   };
 
   hardware = {
-    cpu.amd.updateMicrocode = config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
   };
 
   networking = {
@@ -45,23 +44,17 @@
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
     };
-    hostName = "home";
+    hostName = "thinkpad";
   };
 
-  programs = {
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-    };
-  };
+  # Battery management.
+  services.thermald.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  swapDevices = [];
+
   users.users.jaro = {
     # Enable ‘sudo’ for the user.
     extraGroups = ["wheel"];
     isNormalUser = true;
   };
-
-  swapDevices = [];
 }

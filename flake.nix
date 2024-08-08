@@ -49,19 +49,38 @@
         };
       };
       flake = {
-        nixosConfigurations.home = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./config-home.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.jaro = import ./home.nix;
-              };
-            }
-          ];
+        nixosConfigurations = {
+          home = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./config-home.nix
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.jaro = import ./home.nix;
+                };
+              }
+            ];
+          };
+          thinkpad = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./config-thinkpad.nix
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.jaro = {lib, ...}: {
+                    imports = [./home.nix];
+                    programs.foot.settings.main.font = lib.mkForce "Hack:size=11";
+                  };
+                };
+              }
+            ];
+          };
         };
       };
     };
