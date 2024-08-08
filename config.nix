@@ -6,33 +6,20 @@
   pkgs,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
-
-  # Boot configuration.
   boot = {
     # Use the latest stable Linux kernel.
     kernelPackages = pkgs.linuxPackages_latest;
-    # Configure bootloader.
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
   };
 
-  # Network configuration.
   networking = {
-    # Firewall settings.
     firewall = {
-      # Open ports in the firewall if needed.
-      # allowedTCPPorts = [ ... ];
-      # allowedUDPPorts = [ ... ];
       enable = true;
     };
-    hostName = "home";
-    # Configure wireless networking.
+    useDHCP = true;
     wireless.iwd = {
       enable = true;
       settings = {
@@ -41,6 +28,7 @@
       };
     };
   };
+
   # Localization settings.
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "Europe/Berlin";
@@ -66,7 +54,6 @@
     };
   };
 
-  # Hardware configuration.
   hardware = {
     bluetooth = {
       enable = true;
@@ -82,7 +69,6 @@
     xpadneo.enable = true;
   };
 
-  # Font configuration.
   fonts.packages = with pkgs; [
     hack-font
     noto-fonts
@@ -98,12 +84,6 @@
       viAlias = true;
     };
     nix-ld.enable = true;
-    # # Enable Steam.
-    # steam = {
-    #   enable = true;
-    #   remotePlay.openFirewall = true;
-    #   dedicatedServer.openFirewall = true;
-    # };
   };
 
   # System-wide packages.
@@ -132,13 +112,6 @@
 
   # Enable real-time scheduling for Pipewire and Sway.
   security.rtkit.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jaro = {
-    # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel"];
-    isNormalUser = true;
-  };
 
   # Do NOT change this value.
   system.stateVersion = "23.11";

@@ -52,7 +52,7 @@
         nixosConfigurations.home = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./configuration.nix
+            ./config-home.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {

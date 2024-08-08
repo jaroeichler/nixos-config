@@ -6,10 +6,9 @@
   home = {
     packages = with pkgs; [
       bottom
-      cmus
       google-chrome
+      termusic
     ];
-    username = "jaro";
     stateVersion = "23.11";
   };
   programs = {
