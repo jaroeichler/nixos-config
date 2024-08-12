@@ -2,23 +2,26 @@
   description = "nixos-config";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    git-hooks = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:cachix/git-hooks.nix";
+    };
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
     };
-    pre-commit-hooks = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:cachix/git-hooks.nix";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = inputs @ {
     flake-parts,
+    git-hooks,
     home-manager,
     nixpkgs,
-    pre-commit-hooks,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -33,7 +36,7 @@
         system,
         ...
       }: let
-        hooks = pre-commit-hooks.lib.${system}.run {
+        hooks = git-hooks.lib.${system}.run {
           hooks = import ./pre-commit-hooks.nix {inherit pkgs;};
           src = ./.;
         };
