@@ -62,6 +62,4 @@
     extraGroups = ["wheel"];
     isNormalUser = true;
   };
-
-  swapDevices = [];
 }

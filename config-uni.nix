@@ -11,15 +11,16 @@
   boot = {
     initrd = {
       availableKernelModules = [
-        "nvme"
+        "ahci"
+        "ehci_pci"
         "sd_mod"
-        "uas"
         "usb_storage"
+        "usbhid"
         "xhci_pci"
       ];
       kernelModules = [];
     };
-    kernelModules = ["kvm-intel"];
+    kernelModules = [];
     extraModulePackages = [];
   };
 
@@ -44,12 +45,10 @@
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
     };
-    hostName = "thinkpad";
+    hostName = "uni";
   };
 
-  # Battery management.
-  services.thermald.enable = true;
-
+  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     # Enable ‘sudo’ for the user.
     extraGroups = ["wheel"];
