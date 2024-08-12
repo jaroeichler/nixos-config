@@ -48,6 +48,18 @@
     hostName = "uni";
   };
 
+  # System services.
+  services = {
+    # Detect printers.
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+    # Printing.
+    printing.enable = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     # Enable ‘sudo’ for the user.

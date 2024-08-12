@@ -95,19 +95,11 @@
 
   # System services.
   services = {
-    # # Detect printers.
-    # avahi = {
-    #   enable = true;
-    #   nssmdns4 = true;
-    #   openFirewall = true;
-    # };
     pipewire = {
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
     };
-    # # Printing.
-    # printing.enable = true;
   };
 
   # Enable real-time scheduling for Pipewire and Sway.
