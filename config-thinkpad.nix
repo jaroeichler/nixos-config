@@ -41,11 +41,13 @@
   networking = {
     firewall = {
       # Open ports in the firewall if needed.
-      # allowedTCPPorts = [ ... ];
-      # allowedUDPPorts = [ ... ];
+      allowedTCPPorts = [];
+      allowedUDPPorts = [];
     };
     hostName = "thinkpad";
   };
+
+  programs = {};
 
   # Battery management.
   services.thermald.enable = true;

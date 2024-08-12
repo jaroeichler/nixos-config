@@ -76,9 +76,16 @@
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
-                  users.jaro = {lib, ...}: {
+                  users.jaro = {
+                    lib,
+                    pkgs,
+                    ...
+                  }: {
                     imports = [./home.nix];
                     programs.foot.settings.main.font = lib.mkForce "Hack:size=11";
+                    home.packages = with pkgs; [
+                      acpi
+                    ];
                   };
                 };
               }

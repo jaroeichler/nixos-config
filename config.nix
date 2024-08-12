@@ -95,6 +95,7 @@
 
   # System services.
   services = {
+    fstrim.enable = true;
     pipewire = {
       enable = true;
       alsa.enable = true;
