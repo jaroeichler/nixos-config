@@ -6,7 +6,11 @@
   home = {
     packages = with pkgs; [
       bottom
+      dust
       google-chrome
+      hyperfine
+      ouch
+      sd
       termusic
     ];
     stateVersion = "23.11";
@@ -222,6 +226,10 @@
       ];
     };
     rtorrent.enable = true;
+    tealdeer = {
+      enable = true;
+      settings.updates.auto_update = true;
+    };
     zathura = {
       enable = true;
       options = {
@@ -255,6 +263,9 @@
         statusbar-bg = "#fff8e1";
         statusbar-fg = "#21201d";
       };
+    };
+    zoxide = {
+      enable = true;
     };
   };
   wayland.windowManager.sway = {
