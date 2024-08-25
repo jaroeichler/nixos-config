@@ -11,7 +11,7 @@
       hyperfine
       ouch
       sd
-      termusic
+      # termusic
     ];
     stateVersion = "23.11";
   };
