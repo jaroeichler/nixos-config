@@ -274,6 +274,11 @@
       bars = [];
       defaultWorkspace = "workspace number 1";
       floating.border = 0;
+      input = {
+        "type:keyboard" = {
+          xkb_options = "caps:escape";
+        };
+      };
       keybindings = {
         # Basics.
         "Mod1+q" = "kill";
