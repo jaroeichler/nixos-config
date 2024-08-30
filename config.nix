@@ -99,6 +99,7 @@
 
   # System services.
   services = {
+    envfs.enable = true;
     fstrim.enable = true;
     pipewire = {
       enable = true;
