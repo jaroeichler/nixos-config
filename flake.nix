@@ -11,27 +11,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
     };
-    nixos-generators = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixlib.follows = "nixpkgs";
-      url = "github:nix-community/nixos-generators";
-    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = {
     git-hooks,
     home-manager,
-    nixos-generators,
     nixpkgs,
     ...
   }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
     hooks = git-hooks.lib.${system}.run {
       hooks = import ./pre-commit-hooks.nix {inherit pkgs;};
       src = ./.;
     };
+    pkgs = import nixpkgs {inherit system;};
+    system = "x86_64-linux";
 
     config-home = {
       inherit system;
@@ -88,28 +82,8 @@
       ];
     };
   in {
-    checks.${system} = {
-      pre-commit-check = hooks;
-    };
-
     devShells.${system}.default = pkgs.mkShell {
-      packages = with pkgs; [];
-      shellHook = hooks.shellHook + '''';
-    };
-
-    packages.${system} = {
-      home = nixos-generators.nixosGenerate (
-        config-home
-        // {format = "iso";}
-      );
-      thinkpad = nixos-generators.nixosGenerate (
-        config-thinkpad
-        // {format = "iso";}
-      );
-      uni = nixos-generators.nixosGenerate (
-        config-uni
-        // {format = "iso";}
-      );
+      inherit (hooks) shellHook;
     };
 
     nixosConfigurations = {
