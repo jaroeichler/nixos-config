@@ -11,7 +11,7 @@
       hyperfine
       ouch
       sd
-      # termusic
+      termusic
     ];
     stateVersion = "23.11";
   };
@@ -23,10 +23,11 @@
           git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
         }
         export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
+        export TMPDIR=/tmp
       '';
       sessionVariables = {};
       shellAliases = {
-        top = "btm --color default-light";
+        top = "btm --theme default-light";
         vi = "nvim";
       };
     };
@@ -44,6 +45,7 @@
     };
     foot = {
       enable = true;
+      server.enable = true;
       settings = {
         main = {
           font = "Hack:size=13";
@@ -284,7 +286,6 @@
         "Mod1+q" = "kill";
         "Mod1+d" = "exec google-chrome-stable";
         "Mod1+Return" = "exec foot";
-        "Mod1+Shift+e" = "exec swaymsg exit";
         # Moving.
         "Mod1+j" = "focus left";
         "Mod1+k" = "focus right";
