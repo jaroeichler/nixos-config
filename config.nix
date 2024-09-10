@@ -74,7 +74,7 @@
   };
 
   fonts.packages = with pkgs; [
-    hack-font
+    jetbrains-mono
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji

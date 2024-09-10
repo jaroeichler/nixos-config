@@ -57,7 +57,7 @@
               ...
             }: {
               imports = [./home.nix];
-              programs.foot.settings.main.font = lib.mkForce "Hack:size=11";
+              programs.foot.settings.main.font = lib.mkForce "JetBrainsMono:size=11";
               home.packages = with pkgs; [
                 acpi
               ];

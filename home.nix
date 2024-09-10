@@ -48,7 +48,7 @@
       server.enable = true;
       settings = {
         main = {
-          font = "Hack:size=13";
+          font = "JetBrainsMono:size=13";
           dpi-aware = "yes";
           pad = "8x4";
         };
@@ -243,7 +243,7 @@
         completion-highlight-fg = "#21201d";
         default-bg = "#fff8e1";
         default-fg = "#21201d";
-        font = "hack 13";
+        font = "JetBrainsMono 13";
         highlight-active-color = "#fab32d";
         highlight-color = "#fdda9a";
         index-active-bg = "#fff8e1";
