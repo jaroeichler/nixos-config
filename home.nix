@@ -15,6 +15,7 @@
     ];
     stateVersion = "23.11";
   };
+
   programs = {
     bash = {
       enable = true;
@@ -31,18 +32,22 @@
         vi = "nvim";
       };
     };
+
     bat = {
       enable = true;
       config.theme = "GitHub";
     };
+
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
+
     eza = {
       enable = true;
       git = true;
     };
+
     foot = {
       enable = true;
       server.enable = true;
@@ -130,6 +135,7 @@
         };
       };
     };
+
     git = {
       enable = true;
       extraConfig = {
@@ -149,6 +155,7 @@
       userEmail = "88505041+jaroeichler@users.noreply.github.com";
       userName = "jaroeichler";
     };
+
     mpv = {
       enable = true;
       config = {
@@ -163,6 +170,7 @@
         vo = "gpu-next";
       };
     };
+
     neovim = {
       enable = true;
       extraConfig = ''
@@ -227,11 +235,12 @@
         }
       ];
     };
-    rtorrent.enable = true;
+
     tealdeer = {
       enable = true;
       settings.updates.auto_update = true;
     };
+
     zathura = {
       enable = true;
       options = {
@@ -266,10 +275,12 @@
         statusbar-fg = "#21201d";
       };
     };
+
     zoxide = {
       enable = true;
     };
   };
+
   wayland.windowManager.sway = {
     enable = true;
     config = {
