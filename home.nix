@@ -243,9 +243,6 @@
 
     zathura = {
       enable = true;
-      package = pkgs.zathura.override {
-        useMupdf = false;
-      };
       options = {
         completion-bg = "#fff8e1";
         completion-fg = "#21201d";

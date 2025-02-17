@@ -66,21 +66,6 @@
         }
       ];
     };
-
-    config-uni = {
-      inherit system;
-      modules = [
-        ./config-uni.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.jaro = import ./home.nix;
-          };
-        }
-      ];
-    };
   in {
     devShells.${system}.default = pkgs.mkShell {
       inherit (hooks) shellHook;
@@ -89,7 +74,6 @@
     nixosConfigurations = {
       home = nixpkgs.lib.nixosSystem config-home;
       thinkpad = nixpkgs.lib.nixosSystem config-thinkpad;
-      uni = nixpkgs.lib.nixosSystem config-uni;
     };
   };
 }
