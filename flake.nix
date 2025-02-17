@@ -4,7 +4,6 @@
   inputs = {
     git-hooks = {
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
       url = "github:cachix/git-hooks.nix";
     };
     home-manager = {
