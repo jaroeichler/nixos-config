@@ -2,7 +2,28 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  background = "2D2A2E";
+  foreground = "FCFCFA";
+
+  black = "403E41";
+  red = "FF6188";
+  green = "A9DC76";
+  yellow = "FFD866";
+  blue = "FC9867";
+  magenta = "AB9DF2";
+  cyan = "78DCE8";
+  white = "FCFCFA";
+
+  bright-black = "727072";
+  bright-red = "FF6188";
+  bright-green = "A9DC76";
+  bright-yellow = "FFD866";
+  bright-blue = "FC9867";
+  bright-magenta = "AB9DF2";
+  bright-cyan = "78DCE8";
+  bright-white = "FCFCFA";
+in {
   home = {
     packages = with pkgs; [
       dust
@@ -28,7 +49,9 @@
 
     bat = {
       enable = true;
-      config.theme = "GitHub";
+      config = {
+        theme = "base16";
+      };
     };
 
     bottom = {
@@ -59,24 +82,24 @@
           pad = "8x4";
         };
         colors = {
-          background = "2D2A2E";
-          foreground = "FCFCFA";
-          regular0 = "403E41";
-          regular1 = "FF6188";
-          regular2 = "A9DC76";
-          regular3 = "FFD866";
-          regular4 = "FC9867";
-          regular5 = "AB9DF2";
-          regular6 = "78DCE8";
-          regular7 = "FCFCFA";
-          bright0 = "727072";
-          bright1 = "FF6188";
-          bright2 = "A9DC76";
-          bright3 = "FFD866";
-          bright4 = "FC9867";
-          bright5 = "AB9DF2";
-          bright6 = "78DCE8";
-          bright7 = "FCFCFA";
+          inherit background;
+          inherit foreground;
+          regular0 = black;
+          regular1 = red;
+          regular2 = green;
+          regular3 = yellow;
+          regular4 = blue;
+          regular5 = magenta;
+          regular6 = cyan;
+          regular7 = white;
+          bright0 = bright-black;
+          bright1 = bright-red;
+          bright2 = bright-green;
+          bright3 = bright-yellow;
+          bright4 = bright-blue;
+          bright5 = bright-magenta;
+          bright6 = bright-cyan;
+          bright7 = bright-white;
         };
         key-bindings = {
           scrollback-up-page = "Control+b";
@@ -190,35 +213,35 @@
     zathura = {
       enable = true;
       options = {
-        completion-bg = "#fff8e1";
-        completion-fg = "#21201d";
-        completion-group-bg = "#fff8e1";
-        completion-group-fg = "#21201d";
-        completion-highlight-bg = "#fff8e1";
-        completion-highlight-fg = "#21201d";
-        default-bg = "#fff8e1";
-        default-fg = "#21201d";
+        completion-bg = "#" + background;
+        completion-fg = "#" + foreground;
+        completion-group-bg = "#" + background;
+        completion-group-fg = "#" + foreground;
+        completion-highlight-bg = "#" + background;
+        completion-highlight-fg = "#" + foreground;
+        default-bg = "#" + background;
+        default-fg = "#" + foreground;
         font = "JetBrainsMono 13";
-        highlight-active-color = "#fab32d";
-        highlight-color = "#fdda9a";
-        index-active-bg = "#fff8e1";
-        index-active-fg = "#21201d";
-        index-bg = "#fff8e1";
-        index-fg = "#21201d";
-        inputbar-bg = "#fff8e1";
-        inputbar-fg = "#21201d";
-        notification-bg = "#fff8e1";
-        notification-error-bg = "#fff8e1";
-        notification-error-fg = "#cd4340";
-        notification-fg = "#fab32d";
-        notification-warning-bg = "#fff8e1";
-        notification-warning-fg = "#cd4304";
+        highlight-active-color = "#" + bright-green;
+        highlight-color = "#" + green;
+        index-active-bg = "#" + foreground;
+        index-active-fg = "#" + background;
+        index-bg = "#" + background;
+        index-fg = "#" + foreground;
+        inputbar-bg = "#" + background;
+        inputbar-fg = "#" + foreground;
+        notification-bg = "#" + background;
+        notification-error-bg = "#" + background;
+        notification-error-fg = "#" + red;
+        notification-fg = "#" + foreground;
+        notification-warning-bg = "#" + background;
+        notification-warning-fg = "#" + yellow;
         recolor = "true";
-        recolor-darkcolor = "#21201d";
-        recolor-lightcolor = "#fff8e1";
+        recolor-darkcolor = "#" + foreground;
+        recolor-lightcolor = "#" + background;
         selection-clipboard = "clipboard";
-        statusbar-bg = "#fff8e1";
-        statusbar-fg = "#21201d";
+        statusbar-bg = "#" + background;
+        statusbar-fg = "#" + foreground;
       };
     };
 
@@ -239,7 +262,7 @@
       keybindings = {
         # Basics.
         "Mod1+q" = "kill";
-        "Mod1+d" = "exec google-chrome-stable";
+        "Mod1+d" = "exec google-chrome-stable --force-dark-mode";
         "Mod1+Return" = "exec foot";
         # Moving.
         "Mod1+j" = "focus left";
