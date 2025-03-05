@@ -12,6 +12,45 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    wl-clipboard
+  ];
+
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-label/boot";
+      fsType = "vfat";
+    };
+  };
+
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+  ];
+
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings = {
+        General = {
+          Experimental = "true";
+          FastConnectable = "true";
+        };
+      };
+    };
+    graphics.enable = true;
+    xpadneo.enable = true;
+  };
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
   networking = {
     firewall = {
       enable = true;
@@ -25,10 +64,6 @@
       };
     };
   };
-
-  # Localization settings.
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "Europe/Berlin";
 
   # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
@@ -58,52 +93,13 @@
     };
   };
 
-  hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-      settings = {
-        General = {
-          Experimental = "true";
-          FastConnectable = "true";
-        };
-      };
-    };
-    graphics.enable = true;
-    xpadneo.enable = true;
-  };
-
-  fonts.packages = with pkgs; [
-    jetbrains-mono
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-  ];
-
-  # System-wide program configuration.
-  programs = {
-    neovim = {
-      defaultEditor = true;
-      enable = true;
-      viAlias = true;
-    };
-    nix-ld.enable = true;
-  };
-
-  # System-wide packages.
-  environment.systemPackages = with pkgs; [
-    fd
-    ripgrep
-    wl-clipboard
-  ];
-
   # System services.
   services = {
     envfs.enable = true;
     fstrim.enable = true;
     pipewire = {
-      enable = true;
       alsa.enable = true;
+      enable = true;
       pulse.enable = true;
     };
   };
@@ -111,6 +107,17 @@
   # Enable real-time scheduling for Pipewire and Sway.
   security.rtkit.enable = true;
 
-  # Do NOT change this value.
+  # Do not change!
   system.stateVersion = "23.11";
+
+  time.timeZone = "Europe/Berlin";
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.jaro = {
+    # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "docker"];
+    isNormalUser = true;
+  };
+
+  virtualisation.docker.enable = true;
 }

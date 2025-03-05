@@ -9,6 +9,7 @@
   ];
 
   boot = {
+    extraModulePackages = [];
     initrd = {
       availableKernelModules = [
         "nvme"
@@ -20,18 +21,6 @@
       kernelModules = [];
     };
     kernelModules = ["kvm-intel"];
-    extraModulePackages = [];
-  };
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-    };
   };
 
   hardware = {
@@ -51,10 +40,4 @@
 
   # Battery management.
   services.thermald.enable = true;
-
-  users.users.jaro = {
-    # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel"];
-    isNormalUser = true;
-  };
 }

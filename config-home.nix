@@ -9,30 +9,19 @@
   ];
 
   boot = {
+    extraModulePackages = [];
     initrd = {
       availableKernelModules = [
-        "nvme"
-        "xhci_pci"
         "ahci"
-        "usbhid"
-        "usb_storage"
+        "nvme"
         "sd_mod"
+        "usb_storage"
+        "usbhid"
+        "xhci_pci"
       ];
       kernelModules = [];
     };
     kernelModules = ["kvm-amd"];
-    extraModulePackages = [];
-  };
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
-    };
   };
 
   hardware = {
@@ -50,16 +39,9 @@
 
   programs = {
     steam = {
+      dedicatedServer.openFirewall = true;
       enable = true;
       remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
     };
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jaro = {
-    # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel"];
-    isNormalUser = true;
   };
 }

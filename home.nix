@@ -5,12 +5,10 @@
 }: {
   home = {
     packages = with pkgs; [
-      bottom
       dust
       google-chrome
       hyperfine
       ouch
-      sd
       termusic
     ];
     stateVersion = "23.11";
@@ -24,18 +22,17 @@
           git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
         }
         export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
-        export TMPDIR=/tmp
       '';
       sessionVariables = {};
-      shellAliases = {
-        top = "btm --theme default-light";
-        vi = "nvim";
-      };
     };
 
     bat = {
       enable = true;
       config.theme = "GitHub";
+    };
+
+    bottom = {
+      enable = true;
     };
 
     direnv = {
@@ -48,6 +45,11 @@
       git = true;
     };
 
+    fd = {
+      enable = true;
+      hidden = true;
+    };
+
     foot = {
       enable = true;
       server.enable = true;
@@ -58,33 +60,24 @@
           pad = "8x4";
         };
         colors = {
-          alpha = "1.0";
-          foreground = "21201d"; # black
-          background = "fff8e1"; # amber
-          regular0 = "21201d"; # black
-          regular1 = "cd4340"; # red
-          regular2 = "498d49"; # green
-          regular3 = "fab32d"; # yellow
-          regular4 = "3378c4"; # blue
-          regular5 = "b83269"; # magenta
-          regular6 = "21929a"; # cyan
-          regular7 = "ffd7d7"; # white
-          bright0 = "66635a"; # bright black
-          bright1 = "dd7b72"; # bright red
-          bright2 = "82ae78"; # bright green
-          bright3 = "fbc870"; # bright yellow
-          bright4 = "73a0cd"; # bright blue
-          bright5 = "ce6f8e"; # bright magenta
-          bright6 = "548c94"; # bright cyan
-          bright7 = "ffe1da"; # bright white
-          dim0 = "9e9a8c"; # dim black
-          dim1 = "e9a99b"; # dim red
-          dim2 = "b0c99f"; # dim green
-          dim3 = "fdda9a"; # dim yellow
-          dim4 = "a6c0d4"; # dim blue
-          dim5 = "e0a1ad"; # dim magenta
-          dim6 = "3c6064"; # dim cyan
-          dim7 = "ffe9dd"; # dim white
+          background = "2D2A2E";
+          foreground = "FCFCFA";
+          regular0 = "403E41";
+          regular1 = "FF6188";
+          regular2 = "A9DC76";
+          regular3 = "FFD866";
+          regular4 = "FC9867";
+          regular5 = "AB9DF2";
+          regular6 = "78DCE8";
+          regular7 = "FCFCFA";
+          bright0 = "727072";
+          bright1 = "FF6188";
+          bright2 = "A9DC76";
+          bright3 = "FFD866";
+          bright4 = "FC9867";
+          bright5 = "AB9DF2";
+          bright6 = "78DCE8";
+          bright7 = "FCFCFA";
         };
         key-bindings = {
           scrollback-up-page = "Control+b";
@@ -137,6 +130,13 @@
     };
 
     git = {
+      delta = {
+        enable = true;
+        options = {
+          navigate = true;
+          line-numbers = true;
+        };
+      };
       enable = true;
       extraConfig = {
         commit.gpgsign = true;
@@ -144,20 +144,27 @@
         init.defaultBranch = "main";
         user.signingkey = "~/.ssh/id_ed25519.pub";
       };
-      delta = {
-        enable = true;
-        options = {
-          navigate = true;
-          light = true;
-          line-numbers = true;
-        };
-      };
       userEmail = "88505041+jaroeichler@users.noreply.github.com";
       userName = "jaroeichler";
     };
 
-    mpv = {
+    helix = {
+      defaultEditor = true;
       enable = true;
+      settings = {
+        editor = {
+          gutters = [];
+          rulers = [81];
+          bufferline = "multiple";
+        };
+        keys.normal = {
+          esc = ["collapse_selection" "keep_primary_selection"];
+        };
+        theme = "monokai_pro";
+      };
+    };
+
+    mpv = {
       config = {
         interpolation = "yes";
         profile = "gpu-hq";
@@ -169,71 +176,11 @@
         video-sync = "display-resample";
         vo = "gpu-next";
       };
+      enable = true;
     };
 
-    neovim = {
+    ripgrep = {
       enable = true;
-      extraConfig = ''
-        autocmd FileType nix setlocal sw=2 ts=2
-        autocmd FileType typst setlocal sw=2 ts=2
-        filetype plugin indent on
-        highlight colorcolumn ctermbg=white
-        highlight visual ctermbg=white
-        noremap <D-h> :bd<CR>
-        noremap <D-j> :bp<CR>
-        noremap <D-k> :bn<CR>
-        noremap <D-l> :write<CR>
-        noremap <D-\> 081l<S-f><Space>r<Enter>
-        set clipboard=unnamedplus
-        set colorcolumn=81
-        set expandtab
-        set notermguicolors
-        set shiftwidth=4
-        set tabstop=4
-      '';
-      extraLuaConfig = ''
-        vim.filetype.add({
-          extension = {
-            typ = 'typst',
-          },
-        })
-      '';
-      plugins = with pkgs.vimPlugins; [
-        {
-          plugin = ale;
-          config = ''
-            highlight aleerror ctermbg=white
-            highlight aleerrorline ctermbg=lightyellow
-            highlight alewarning ctermbg=white
-            highlight alewarningline ctermbg=lightyellow
-            highlight aleinfo ctermbg=white
-            highlight aleinfoline ctermbg=lightyellow
-            let g:ale_set_signs=0
-            let g:ale_linters = {
-            \    'cpp': ['clangtidy'],
-            \}
-            let g:ale_fixers = {
-            \    'cpp': ['clangtidy'],
-            \    'nix': ['nixfmt', 'trim_whitespace'],
-            \}
-          '';
-        }
-        {
-          plugin = nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = ''
-            require'nvim-treesitter.configs'.setup {
-              highlight = {
-                additional_vim_regex_highlighting = false,
-                enable = true,
-                indent = {
-                  enable = true
-                }
-              },
-            }
-          '';
-        }
-      ];
     };
 
     tealdeer = {
@@ -282,11 +229,9 @@
   };
 
   wayland.windowManager.sway = {
-    enable = true;
     config = {
       bars = [];
       defaultWorkspace = "workspace number 1";
-      floating.border = 0;
       input = {
         "type:keyboard" = {
           xkb_options = "caps:escape";
@@ -333,6 +278,7 @@
         titlebar = false;
       };
     };
+    enable = true;
     wrapperFeatures.gtk = true;
   };
 }
