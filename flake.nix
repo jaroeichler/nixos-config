@@ -26,41 +26,16 @@
     pkgs = import nixpkgs {inherit system;};
     system = "x86_64-linux";
 
-    config-home = {
+    config = id: {
       inherit system;
       modules = [
-        ./config-home.nix
+        ./config-${id}.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.jaro = import ./home.nix;
-          };
-        }
-      ];
-    };
-
-    config-thinkpad = {
-      inherit system;
-      modules = [
-        ./config-thinkpad.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.jaro = {
-              lib,
-              pkgs,
-              ...
-            }: {
-              imports = [./home.nix];
-              programs.foot.settings.main.font = lib.mkForce "JetBrainsMono:size=11";
-              home.packages = with pkgs; [
-                acpi
-              ];
-            };
+            users.jaro = import ./home-${id}.nix;
           };
         }
       ];
@@ -71,8 +46,8 @@
     };
 
     nixosConfigurations = {
-      home = nixpkgs.lib.nixosSystem config-home;
-      thinkpad = nixpkgs.lib.nixosSystem config-thinkpad;
+      home = nixpkgs.lib.nixosSystem (config "home");
+      thinkpad = nixpkgs.lib.nixosSystem (config "thinkpad");
     };
   };
 }

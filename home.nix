@@ -55,7 +55,6 @@
       server.enable = true;
       settings = {
         main = {
-          font = "JetBrainsMono:size=13";
           dpi-aware = "yes";
           pad = "8x4";
         };
