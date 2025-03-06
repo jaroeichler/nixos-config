@@ -175,9 +175,10 @@ in {
       enable = true;
       settings = {
         editor = {
+          bufferline = "multiple";
           gutters = [];
           rulers = [81];
-          bufferline = "multiple";
+          soft-wrap.enable = true;
         };
         keys.normal = {
           esc = ["collapse_selection" "keep_primary_selection"];
