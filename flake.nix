@@ -19,13 +19,6 @@
     nixpkgs,
     ...
   }: let
-    hooks = git-hooks.lib.${system}.run {
-      hooks = import ./pre-commit-hooks.nix {inherit pkgs;};
-      src = ./.;
-    };
-    pkgs = import nixpkgs {inherit system;};
-    system = "x86_64-linux";
-
     config = id: {
       inherit system;
       modules = [
@@ -40,6 +33,15 @@
         }
       ];
     };
+
+    hooks = git-hooks.lib.${system}.run {
+      hooks = import ./git-hooks.nix {inherit pkgs;};
+      src = ./.;
+    };
+
+    pkgs = import nixpkgs {inherit system;};
+
+    system = "x86_64-linux";
   in {
     devShells.${system}.default = pkgs.mkShell {
       inherit (hooks) shellHook;

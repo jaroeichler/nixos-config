@@ -115,9 +115,12 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel" "docker"];
+    extraGroups = ["wheel"];
     isNormalUser = true;
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 }
