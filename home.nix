@@ -7,22 +7,14 @@
   foreground = "FCFCFA";
 
   black = "403E41";
-  red = "FF6188";
-  green = "A9DC76";
-  yellow = "FFD866";
   blue = "FC9867";
-  magenta = "AB9DF2";
   cyan = "78DCE8";
+  green = "A9DC76";
+  grey = "727072";
+  magenta = "AB9DF2";
+  red = "FF6188";
   white = "FCFCFA";
-
-  bright-black = "727072";
-  bright-red = "FF6188";
-  bright-green = "A9DC76";
-  bright-yellow = "FFD866";
-  bright-blue = "FC9867";
-  bright-magenta = "AB9DF2";
-  bright-cyan = "78DCE8";
-  bright-white = "FCFCFA";
+  yellow = "FFD866";
 in {
   home = {
     packages = with pkgs; [
@@ -92,14 +84,14 @@ in {
           regular5 = magenta;
           regular6 = cyan;
           regular7 = white;
-          bright0 = bright-black;
-          bright1 = bright-red;
-          bright2 = bright-green;
-          bright3 = bright-yellow;
-          bright4 = bright-blue;
-          bright5 = bright-magenta;
-          bright6 = bright-cyan;
-          bright7 = bright-white;
+          bright0 = grey;
+          bright1 = red;
+          bright2 = green;
+          bright3 = yellow;
+          bright4 = blue;
+          bright5 = magenta;
+          bright6 = cyan;
+          bright7 = white;
         };
         key-bindings = {
           scrollback-up-page = "Control+b";
@@ -223,8 +215,8 @@ in {
         default-bg = "#" + background;
         default-fg = "#" + foreground;
         font = "JetBrainsMono 13";
-        highlight-active-color = "#" + bright-green;
-        highlight-color = "#" + green;
+        highlight-active-color = "rgba(255, 97, 136, 0.4)";
+        highlight-color = "rgba(255, 216, 102, 0.4)";
         index-active-bg = "#" + foreground;
         index-active-fg = "#" + background;
         index-bg = "#" + background;
