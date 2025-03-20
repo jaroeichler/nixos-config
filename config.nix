@@ -93,6 +93,9 @@
     };
   };
 
+  programs = {
+  };
+
   # System services.
   services = {
     envfs.enable = true;
@@ -115,12 +118,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "docker"];
     isNormalUser = true;
   };
 
-  virtualisation.docker.rootless = {
+  virtualisation.docker = {
     enable = true;
-    setSocketVariable = true;
   };
 }
