@@ -16,6 +16,10 @@
   white = "FCFCFA";
   yellow = "FFD866";
 in {
+  dconf.settings = {
+    "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   home = {
     packages = with pkgs; [
       dust
@@ -24,6 +28,11 @@ in {
       ouch
       termusic
     ];
+    pointerCursor = {
+      package = pkgs.rose-pine-cursor;
+      name = "BreezeX-RosePine-Linux";
+      hyprcursor.enable = true;
+    };
     stateVersion = "23.11";
   };
 
@@ -31,10 +40,10 @@ in {
     bash = {
       enable = true;
       initExtra = ''
+        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
         git_branch() {
           git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
         }
-        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
       '';
       sessionVariables = {};
     };
@@ -117,7 +126,7 @@ in {
           noop = "none";
         };
         search-bindings = {
-          cancel = "Control+c Escape";
+          cancel = "Control+c";
           commit = "Return";
           find-prev = "Control+Shift+n";
           find-next = "Control+n";
@@ -243,57 +252,81 @@ in {
     };
   };
 
-  wayland.windowManager.sway = {
-    config = {
-      bars = [];
-      defaultWorkspace = "workspace number 1";
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = null;
+    portalPackage = null;
+    systemd.variables = ["--all"];
+    settings = {
+      animations = {
+        enabled = false;
+      };
+      bind = [
+        # Basics
+        "Mod1, q, killactive"
+        "Mod1, d, exec, google-chrome-stable"
+        "Mod1, Return, exec, foot"
+        # Focus
+        "Mod1, h, movefocus, l"
+        "Mod1, j, movefocus, d"
+        "Mod1, k, movefocus, u"
+        "Mod1, l, movefocus, r"
+        # Move window
+        "Mod1 SHIFT, h, movewindow, l"
+        "Mod1 SHIFT, j, movewindow, d"
+        "Mod1 SHIFT, k, movewindow, u"
+        "Mod1 SHIFT, l, movewindow, r"
+        # Volume
+        ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+        # Workspaces
+        "Mod1, 1, workspace, 1"
+        "Mod1, 2, workspace, 2"
+        "Mod1, 3, workspace, 3"
+        "Mod1, 4, workspace, 4"
+        "Mod1, 5, workspace, 5"
+        "Mod1, 6, workspace, 6"
+        "Mod1, 7, workspace, 7"
+        "Mod1, 8, workspace, 8"
+        "Mod1, 9, workspace, 9"
+        "Mod1, 0, workspace, 10"
+        "Mod1 SHIFT, 1, movetoworkspace, 1"
+        "Mod1 SHIFT, 2, movetoworkspace, 2"
+        "Mod1 SHIFT, 3, movetoworkspace, 3"
+        "Mod1 SHIFT, 4, movetoworkspace, 4"
+        "Mod1 SHIFT, 5, movetoworkspace, 5"
+        "Mod1 SHIFT, 6, movetoworkspace, 6"
+        "Mod1 SHIFT, 7, movetoworkspace, 7"
+        "Mod1 SHIFT, 8, movetoworkspace, 8"
+        "Mod1 SHIFT, 9, movetoworkspace, 9"
+        "Mod1 SHIFT, 0, movetoworkspace, 10"
+      ];
+      decoration = {
+        blur.enabled = false;
+        shadow.enabled = false;
+      };
+      dwindle = {
+        force_split = 2;
+      };
+      general = {
+        border_size = 0;
+        gaps_in = 0;
+        gaps_out = 0;
+        no_border_on_floating = true;
+      };
+      group = {
+        auto_group = false;
+      };
       input = {
-        "type:keyboard" = {
-          xkb_options = "caps:escape";
-        };
+        kb_options = "caps:escape";
       };
-      keybindings = {
-        # Basics.
-        "Mod1+q" = "kill";
-        "Mod1+d" = "exec google-chrome-stable --force-dark-mode";
-        "Mod1+Return" = "exec foot";
-        # Moving.
-        "Mod1+j" = "focus left";
-        "Mod1+k" = "focus right";
-        "Mod1+Shift+j" = "move left";
-        "Mod1+Shift+k" = "move right";
-        # Volume.
-        "XF86AudioLowerVolume" = "exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-";
-        "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        "XF86AudioRaiseVolume" = "exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
-        # Workspaces.
-        "Mod1+1" = "workspace number 1";
-        "Mod1+2" = "workspace number 2";
-        "Mod1+3" = "workspace number 3";
-        "Mod1+4" = "workspace number 4";
-        "Mod1+5" = "workspace number 5";
-        "Mod1+6" = "workspace number 6";
-        "Mod1+7" = "workspace number 7";
-        "Mod1+8" = "workspace number 8";
-        "Mod1+9" = "workspace number 9";
-        "Mod1+0" = "workspace number 10";
-        "Mod1+Shift+1" = "move container to workspace number 1";
-        "Mod1+Shift+2" = "move container to workspace number 2";
-        "Mod1+Shift+3" = "move container to workspace number 3";
-        "Mod1+Shift+4" = "move container to workspace number 4";
-        "Mod1+Shift+5" = "move container to workspace number 5";
-        "Mod1+Shift+6" = "move container to workspace number 6";
-        "Mod1+Shift+7" = "move container to workspace number 7";
-        "Mod1+Shift+8" = "move container to workspace number 8";
-        "Mod1+Shift+9" = "move container to workspace number 9";
-        "Mod1+Shift+0" = "move container to workspace number 10";
-      };
-      window = {
-        border = 0;
-        titlebar = false;
+      misc = {
+        background_color = "0x2D2A2E";
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        vfr = true;
       };
     };
-    enable = true;
-    wrapperFeatures.gtk = true;
   };
 }
