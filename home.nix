@@ -3,18 +3,18 @@
   pkgs,
   ...
 }: let
-  background = "2D2A2E";
-  foreground = "FCFCFA";
+  background = "#2D2A2E";
+  foreground = "#FCFCFA";
 
-  black = "403E41";
-  blue = "FC9867";
-  cyan = "78DCE8";
-  green = "A9DC76";
-  grey = "727072";
-  magenta = "AB9DF2";
-  red = "FF6188";
-  white = "FCFCFA";
-  yellow = "FFD866";
+  black = "#403E41";
+  blue = "#FC9867";
+  cyan = "#78DCE8";
+  green = "#A9DC76";
+  grey = "#727072";
+  magenta = "#AB9DF2";
+  red = "#FF6188";
+  white = "#FCFCFA";
+  yellow = "#FFD866";
 in {
   dconf.settings = {
     "org/gnome/desktop/interface".color-scheme = "prefer-dark";
@@ -72,84 +72,6 @@ in {
     fd = {
       enable = true;
       hidden = true;
-    };
-
-    foot = {
-      enable = true;
-      server.enable = true;
-      settings = {
-        main = {
-          dpi-aware = "yes";
-          pad = "8x4";
-        };
-        colors = {
-          inherit background;
-          inherit foreground;
-          regular0 = black;
-          regular1 = red;
-          regular2 = green;
-          regular3 = yellow;
-          regular4 = blue;
-          regular5 = magenta;
-          regular6 = cyan;
-          regular7 = white;
-          bright0 = grey;
-          bright1 = red;
-          bright2 = green;
-          bright3 = yellow;
-          bright4 = blue;
-          bright5 = magenta;
-          bright6 = cyan;
-          bright7 = white;
-        };
-        key-bindings = {
-          scrollback-up-page = "Control+b";
-          scrollback-up-half-page = "Control+u";
-          scrollback-up-line = "none";
-          scrollback-down-page = "Control+f";
-          scrollback-down-half-page = "Control+d";
-          scrollback-down-line = "none";
-          clipboard-copy = "Control+y XF86Copy";
-          clipboard-paste = "Control+p XF86Paste";
-          primary-paste = "none";
-          search-start = "Control+slash";
-          font-increase = "none";
-          font-decrease = "none";
-          font-reset = "none";
-          spawn-terminal = "none";
-          minimize = "none";
-          maximize = "none";
-          fullscreen = "none";
-          show-urls-launch = "none";
-          show-urls-copy = "none";
-          show-urls-persistent = "none";
-          noop = "none";
-        };
-        search-bindings = {
-          cancel = "Control+c";
-          commit = "Return";
-          find-prev = "Control+Shift+n";
-          find-next = "Control+n";
-          cursor-left = "none";
-          cursor-left-word = "none";
-          cursor-right = "none";
-          cursor-right-word = "none";
-          cursor-home = "none";
-          cursor-end = "none";
-          delete-prev = "none";
-          delete-prev-word = "none";
-          delete-next = "none";
-          delete-next-word = "none";
-          extend-to-word-boundary = "none";
-          extend-to-next-whitespace = "none";
-          clipboard-paste = "none";
-          primary-paste = "none";
-        };
-        url-bindings = {
-          cancel = "none";
-          toggle-url-visible = "none";
-        };
-      };
     };
 
     git = {
@@ -212,38 +134,114 @@ in {
       settings.updates.auto_update = true;
     };
 
+    wezterm = {
+      enable = true;
+      enableBashIntegration = true;
+      colorSchemes = {
+        monokai-pro = {
+          ansi = [
+            black
+            red
+            green
+            yellow
+            blue
+            magenta
+            cyan
+            white
+          ];
+          inherit background;
+          brights = [
+            grey
+            red
+            green
+            yellow
+            blue
+            magenta
+            cyan
+            white
+          ];
+          cursor_bg = foreground;
+          cursor_border = foreground;
+          cursor_fg = background;
+          inherit foreground;
+          selection_bg = grey;
+          selection_fg = white;
+        };
+      };
+      extraConfig = ''
+        return {
+          animation_fps = 1,
+          color_scheme = "monokai-pro",
+          disable_default_key_bindings = true,
+          font_size = 19,
+          font = wezterm.font("JetBrains Mono"),
+          hide_tab_bar_if_only_one_tab = true,
+          keys = {
+            {
+              key = "Escape",
+              mods = "ALT",
+              action = wezterm.action.ActivateCopyMode
+            },
+            {
+              key = "/",
+              mods = "ALT",
+              action = wezterm.action.Search {CaseSensitiveString=""}
+            },
+            {
+              key = "p",
+              mods = "ALT",
+              action = wezterm.action.PasteFrom "Clipboard"
+            },
+            {
+              key = "y",
+              mods = "ALT",
+              action = wezterm.action.CopyTo "Clipboard"
+            },
+          },
+          window_close_confirmation = "NeverPrompt",
+          window_decorations = "NONE",
+          window_padding = {
+            left = "0.5cell",
+            right = "0.5cell",
+            top = 0,
+            bottom = 0,
+          }
+        }
+      '';
+    };
+
     zathura = {
       enable = true;
       options = {
-        completion-bg = "#" + background;
-        completion-fg = "#" + foreground;
-        completion-group-bg = "#" + background;
-        completion-group-fg = "#" + foreground;
-        completion-highlight-bg = "#" + background;
-        completion-highlight-fg = "#" + foreground;
-        default-bg = "#" + background;
-        default-fg = "#" + foreground;
+        completion-bg = background;
+        completion-fg = foreground;
+        completion-group-bg = background;
+        completion-group-fg = foreground;
+        completion-highlight-bg = background;
+        completion-highlight-fg = foreground;
+        default-bg = background;
+        default-fg = foreground;
         font = "JetBrainsMono 13";
         highlight-active-color = "rgba(255, 97, 136, 0.4)";
         highlight-color = "rgba(255, 216, 102, 0.4)";
-        index-active-bg = "#" + foreground;
-        index-active-fg = "#" + background;
-        index-bg = "#" + background;
-        index-fg = "#" + foreground;
-        inputbar-bg = "#" + background;
-        inputbar-fg = "#" + foreground;
-        notification-bg = "#" + background;
-        notification-error-bg = "#" + background;
-        notification-error-fg = "#" + red;
-        notification-fg = "#" + foreground;
-        notification-warning-bg = "#" + background;
-        notification-warning-fg = "#" + yellow;
+        index-active-bg = foreground;
+        index-active-fg = background;
+        index-bg = background;
+        index-fg = foreground;
+        inputbar-bg = background;
+        inputbar-fg = foreground;
+        notification-bg = background;
+        notification-error-bg = background;
+        notification-error-fg = red;
+        notification-fg = foreground;
+        notification-warning-bg = background;
+        notification-warning-fg = yellow;
         recolor = "true";
-        recolor-darkcolor = "#" + foreground;
-        recolor-lightcolor = "#" + background;
+        recolor-darkcolor = foreground;
+        recolor-lightcolor = background;
         selection-clipboard = "clipboard";
-        statusbar-bg = "#" + background;
-        statusbar-fg = "#" + foreground;
+        statusbar-bg = background;
+        statusbar-fg = foreground;
       };
     };
 
@@ -265,7 +263,7 @@ in {
         # Basics
         "Mod1, q, killactive"
         "Mod1, d, exec, google-chrome-stable"
-        "Mod1, Return, exec, foot"
+        "Mod1, Return, exec, wezterm"
         # Focus
         "Mod1, h, movefocus, l"
         "Mod1, j, movefocus, d"
