@@ -4,6 +4,14 @@
   ...
 }: {
   boot = {
+    # Needed for Cilium gateways.
+    kernelModules = [
+      "iptable_filter"
+      "iptable_mangle"
+      "iptable_nat"
+      "iptable_raw"
+      "xt_socket"
+    ];
     # Use the latest stable Linux kernel.
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
@@ -58,6 +66,8 @@
     firewall = {
       enable = true;
     };
+    nameservers = ["1.1.1.1" "8.8.8.8"];
+    networkmanager.dns = "systemd-resolved";
     useDHCP = true;
     wireless.iwd = {
       enable = true;
@@ -98,6 +108,7 @@
 
   programs = {
     hyprland.enable = true;
+    nix-ld.enable = true;
   };
 
   # System services.
@@ -108,6 +119,13 @@
       alsa.enable = true;
       enable = true;
       pulse.enable = true;
+    };
+    resolved = {
+      dnsovertls = "true";
+      dnssec = "true";
+      domains = ["~."];
+      enable = true;
+      fallbackDns = ["1.1.1.1" "8.8.8.8"];
     };
   };
 
