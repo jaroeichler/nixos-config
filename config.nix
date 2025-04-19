@@ -69,13 +69,15 @@
     nameservers = ["1.1.1.1" "8.8.8.8"];
     networkmanager.dns = "systemd-resolved";
     useDHCP = true;
-    wireless.iwd = {
-      enable = true;
-      settings = {
-        IPv6.Enabled = true;
-        Settings.AutoConnect = true;
-      };
-    };
+    # wireless.iwd = {
+    # enable = true;
+    # settings = {
+    # IPv6.Enabled = true;
+    # Settings.AutoConnect = true;
+    # };
+    # };
+    wireless.enable = true;
+    wireless.userControlled.enable = true;
   };
 
   # Allow unfree packages.
