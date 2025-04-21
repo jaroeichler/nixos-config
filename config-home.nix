@@ -1,8 +1,4 @@
-{
-  config,
-  modulesPath,
-  ...
-}: {
+{modulesPath, ...}: {
   imports = [
     ./config.nix
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -15,17 +11,18 @@
         "ahci"
         "nvme"
         "sd_mod"
+        "thunderbolt"
         "usb_storage"
         "usbhid"
         "xhci_pci"
       ];
       kernelModules = [];
     };
-    kernelModules = ["kvm-amd"];
+    kernelModules = ["amdgpu" "kvm-amd"];
   };
 
   hardware = {
-    cpu.amd.updateMicrocode = config.hardware.enableRedistributableFirmware;
+    cpu.amd.updateMicrocode = true;
   };
 
   networking = {
@@ -35,6 +32,10 @@
       # allowedUDPPorts = [ ... ];
     };
     hostName = "home";
+    networkmanager = {
+      enable = true;
+      wifi.powersave = false;
+    };
   };
 
   programs = {

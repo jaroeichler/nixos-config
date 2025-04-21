@@ -1,24 +1,14 @@
 {
   config,
+  lib,
   pkgs,
   ...
-}: let
-  background = "#2D2A2E";
-  foreground = "#FCFCFA";
-
-  black = "#403E41";
-  blue = "#FC9867";
-  cyan = "#78DCE8";
-  green = "#A9DC76";
-  grey = "#727072";
-  magenta = "#AB9DF2";
-  red = "#FF6188";
-  white = "#FCFCFA";
-  yellow = "#FFD866";
-in {
+}: {
   dconf.settings = {
     "org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
+
+  gtk.enable = true;
 
   home = {
     packages = with pkgs; [
@@ -29,6 +19,7 @@ in {
       termusic
     ];
     pointerCursor = {
+      gtk.enable = true;
       package = pkgs.rose-pine-cursor;
       name = "BreezeX-RosePine-Linux";
       hyprcursor.enable = true;
@@ -37,16 +28,7 @@ in {
   };
 
   programs = {
-    bash = {
-      enable = true;
-      initExtra = ''
-        export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(git_branch)\[\033[00m\] "
-        git_branch() {
-          git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-        }
-      '';
-      sessionVariables = {};
-    };
+    bash.enable = true;
 
     bat = {
       enable = true;
@@ -55,9 +37,7 @@ in {
       };
     };
 
-    bottom = {
-      enable = true;
-    };
+    bottom.enable = true;
 
     direnv = {
       enable = true;
@@ -72,6 +52,29 @@ in {
     fd = {
       enable = true;
       hidden = true;
+    };
+
+    ghostty = {
+      clearDefaultKeybinds = true;
+      enable = true;
+      settings = {
+        confirm-close-surface = false;
+        cursor-style = "block";
+        cursor-style-blink = false;
+        font-family = "JetBrains Mono";
+        font-size = 19;
+        keybind = [
+          "super+y=copy_to_clipboard"
+          "super+p=paste_from_clipboard"
+          "super+u=scroll_page_up"
+          "super+d=scroll_page_down"
+          "super+e=write_screen_file:paste"
+        ];
+        resize-overlay = "never";
+        theme = "Monokai Pro";
+        quick-terminal-animation-duration = 0;
+        quit-after-last-window-closed = false;
+      };
     };
 
     git = {
@@ -129,120 +132,23 @@ in {
       enable = true;
     };
 
+    starship = {
+      enable = true;
+      settings = {
+        add_newline = false;
+        format = lib.concatStrings [
+          "$username"
+          "$hostname"
+          "$directory"
+          "$git_branch"
+          "$git_state"
+        ];
+      };
+    };
+
     tealdeer = {
       enable = true;
       settings.updates.auto_update = true;
-    };
-
-    wezterm = {
-      enable = true;
-      enableBashIntegration = true;
-      colorSchemes = {
-        monokai-pro = {
-          ansi = [
-            black
-            red
-            green
-            yellow
-            blue
-            magenta
-            cyan
-            white
-          ];
-          inherit background;
-          brights = [
-            grey
-            red
-            green
-            yellow
-            blue
-            magenta
-            cyan
-            white
-          ];
-          cursor_bg = foreground;
-          cursor_border = foreground;
-          cursor_fg = background;
-          inherit foreground;
-          selection_bg = grey;
-          selection_fg = white;
-        };
-      };
-      extraConfig = ''
-        return {
-          animation_fps = 1,
-          color_scheme = "monokai-pro",
-          disable_default_key_bindings = true,
-          font_size = 19,
-          font = wezterm.font("JetBrains Mono"),
-          hide_tab_bar_if_only_one_tab = true,
-          keys = {
-            {
-              key = "Escape",
-              mods = "ALT",
-              action = wezterm.action.ActivateCopyMode
-            },
-            {
-              key = "/",
-              mods = "ALT",
-              action = wezterm.action.Search {CaseSensitiveString=""}
-            },
-            {
-              key = "p",
-              mods = "ALT",
-              action = wezterm.action.PasteFrom "Clipboard"
-            },
-            {
-              key = "y",
-              mods = "ALT",
-              action = wezterm.action.CopyTo "Clipboard"
-            },
-          },
-          window_close_confirmation = "NeverPrompt",
-          window_decorations = "NONE",
-          window_padding = {
-            left = "0.5cell",
-            right = "0.5cell",
-            top = 0,
-            bottom = 0,
-          }
-        }
-      '';
-    };
-
-    zathura = {
-      enable = true;
-      options = {
-        completion-bg = background;
-        completion-fg = foreground;
-        completion-group-bg = background;
-        completion-group-fg = foreground;
-        completion-highlight-bg = background;
-        completion-highlight-fg = foreground;
-        default-bg = background;
-        default-fg = foreground;
-        font = "JetBrainsMono 13";
-        highlight-active-color = "rgba(255, 97, 136, 0.4)";
-        highlight-color = "rgba(255, 216, 102, 0.4)";
-        index-active-bg = foreground;
-        index-active-fg = background;
-        index-bg = background;
-        index-fg = foreground;
-        inputbar-bg = background;
-        inputbar-fg = foreground;
-        notification-bg = background;
-        notification-error-bg = background;
-        notification-error-fg = red;
-        notification-fg = foreground;
-        notification-warning-bg = background;
-        notification-warning-fg = yellow;
-        recolor = "true";
-        recolor-darkcolor = foreground;
-        recolor-lightcolor = background;
-        selection-clipboard = "clipboard";
-        statusbar-bg = background;
-        statusbar-fg = foreground;
-      };
     };
 
     zoxide = {
@@ -263,7 +169,7 @@ in {
         # Basics
         "Mod1, q, killactive"
         "Mod1, d, exec, google-chrome-stable"
-        "Mod1, Return, exec, wezterm"
+        "Mod1, Return, exec, ghostty"
         # Focus
         "Mod1, h, movefocus, l"
         "Mod1, j, movefocus, d"
@@ -325,6 +231,7 @@ in {
         disable_splash_rendering = true;
         vfr = true;
       };
+      monitor = [",preferred, auto, 1"];
     };
   };
 }

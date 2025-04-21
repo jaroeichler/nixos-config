@@ -30,11 +30,9 @@
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
     };
     "/boot" = {
       device = "/dev/disk/by-label/boot";
-      fsType = "vfat";
     };
   };
 
@@ -56,6 +54,7 @@
         };
       };
     };
+    enableAllFirmware = true;
     graphics.enable = true;
     xpadneo.enable = true;
   };
@@ -67,17 +66,6 @@
       enable = true;
     };
     nameservers = ["1.1.1.1" "8.8.8.8"];
-    networkmanager.dns = "systemd-resolved";
-    useDHCP = true;
-    # wireless.iwd = {
-    # enable = true;
-    # settings = {
-    # IPv6.Enabled = true;
-    # Settings.AutoConnect = true;
-    # };
-    # };
-    wireless.enable = true;
-    wireless.userControlled.enable = true;
   };
 
   # Allow unfree packages.
@@ -122,16 +110,9 @@
       enable = true;
       pulse.enable = true;
     };
-    resolved = {
-      dnsovertls = "true";
-      dnssec = "true";
-      domains = ["~."];
-      enable = true;
-      fallbackDns = ["1.1.1.1" "8.8.8.8"];
-    };
   };
 
-  # Enable real-time scheduling for Pipewire and Sway.
+  # Enable real-time scheduling for Pipewire.
   security.rtkit.enable = true;
 
   # Do not change!
@@ -142,7 +123,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
     # Enable ‘sudo’ for the user.
-    extraGroups = ["wheel" "docker"];
+    extraGroups = ["docker" "networkmanager" "wheel"];
     isNormalUser = true;
   };
 

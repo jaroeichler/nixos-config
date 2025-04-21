@@ -1,8 +1,4 @@
-{
-  config,
-  modulesPath,
-  ...
-}: {
+{modulesPath, ...}: {
   imports = [
     ./config.nix
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -24,7 +20,7 @@
   };
 
   hardware = {
-    cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = true;
   };
 
   networking = {
@@ -34,9 +30,8 @@
       allowedUDPPorts = [];
     };
     hostName = "thinkpad";
+    wireless.iwd.enable = true;
   };
-
-  programs = {};
 
   # Battery management.
   services.thermald.enable = true;

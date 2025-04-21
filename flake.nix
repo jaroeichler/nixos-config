@@ -28,7 +28,7 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.jaro = import ./home-${id}.nix;
+            users.jaro = import ./home.nix;
           };
         }
       ];
