@@ -51,7 +51,10 @@
 
     fd = {
       enable = true;
-      hidden = true;
+      extraOptions = [
+        "--hidden"
+        "--no-ignore"
+      ];
     };
 
     ghostty = {
@@ -64,11 +67,11 @@
         font-family = "JetBrains Mono";
         font-size = 19;
         keybind = [
-          "super+y=copy_to_clipboard"
-          "super+p=paste_from_clipboard"
-          "super+u=scroll_page_up"
-          "super+d=scroll_page_down"
-          "super+e=write_screen_file:paste"
+          "alt+y=copy_to_clipboard"
+          "alt+p=paste_from_clipboard"
+          "alt+u=scroll_page_up"
+          "alt+d=scroll_page_down"
+          "alt+e=write_screen_file:paste"
         ];
         resize-overlay = "never";
         theme = "Monokai Pro";
@@ -129,6 +132,10 @@
     };
 
     ripgrep = {
+      arguments = [
+        "--hidden"
+        "--no-ignore"
+      ];
       enable = true;
     };
 
@@ -168,7 +175,7 @@
       bind = [
         # Basics
         "Mod1, q, killactive"
-        "Mod1, d, exec, google-chrome-stable"
+        "Mod1, Backslash, exec, google-chrome-stable"
         "Mod1, Return, exec, ghostty"
         # Focus
         "Mod1, h, movefocus, l"
