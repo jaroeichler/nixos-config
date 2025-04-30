@@ -30,7 +30,6 @@
       allowedUDPPorts = [];
     };
     hostName = "thinkpad";
-    wireless.iwd.enable = true;
   };
 
   # Battery management.

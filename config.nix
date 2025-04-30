@@ -62,10 +62,9 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   networking = {
-    firewall = {
-      enable = true;
-    };
+    firewall.enable = true;
     nameservers = ["1.1.1.1" "8.8.8.8"];
+    wireless.iwd.enable = true;
   };
 
   # Allow unfree packages.

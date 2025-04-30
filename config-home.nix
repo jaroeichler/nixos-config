@@ -32,11 +32,6 @@
       # allowedUDPPorts = [ ... ];
     };
     hostName = "home";
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-      wifi.powersave = false;
-    };
   };
 
   programs = {
