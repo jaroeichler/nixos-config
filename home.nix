@@ -53,7 +53,6 @@
       enable = true;
       extraOptions = [
         "--hidden"
-        "--no-ignore"
       ];
     };
 
@@ -134,7 +133,6 @@
     ripgrep = {
       arguments = [
         "--hidden"
-        "--no-ignore"
       ];
       enable = true;
     };
@@ -174,7 +172,7 @@
       };
       bind = [
         # Basics
-        "Mod1, q, killactive"
+        "Mod1, Backspace, killactive"
         "Mod1, Backslash, exec, google-chrome-stable"
         "Mod1, Return, exec, ghostty"
         # Focus
