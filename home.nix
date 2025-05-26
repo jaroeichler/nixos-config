@@ -137,6 +137,16 @@
       enable = true;
     };
 
+    ssh = {
+      enable = true;
+      matchBlocks = {
+        "home" = {
+          hostname = "2a02:908:1a1:520:3e0a:f3ff:fea0:6f1f";
+          user = "jaro";
+        };
+      };
+    };
+
     starship = {
       enable = true;
       settings = {

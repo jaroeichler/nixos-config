@@ -13,7 +13,7 @@
       "xt_socket"
     ];
     # Use the latest stable Linux kernel.
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_testing;
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
@@ -30,6 +30,7 @@
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
+      options = ["noatime"];
     };
     "/boot" = {
       device = "/dev/disk/by-label/boot";
