@@ -141,10 +141,12 @@
       enable = true;
       matchBlocks = {
         "home" = {
-          hostname = "2a02:908:1a1:520:3e0a:f3ff:fea0:6f1f";
+          hostname = "178.203.105.228";
+          port = 2222;
           user = "jaro";
         };
       };
+      serverAliveInterval = 60;
     };
 
     starship = {
