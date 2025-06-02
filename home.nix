@@ -117,6 +117,9 @@
 
     mpv = {
       config = {
+        deband = "yes";
+        gpu-api = "opengl";
+        hwdec = "auto";
         interpolation = "yes";
         profile = "gpu-hq";
         sub-border-size = 1;
