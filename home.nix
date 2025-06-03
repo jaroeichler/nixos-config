@@ -144,6 +144,11 @@
       enable = true;
       matchBlocks = {
         "home" = {
+          extraOptions = {
+            ControlMaster = "auto";
+            ControlPath = "~/.ssh/ctrl-%r@%h-%p";
+            ControlPersist = "1800";
+          };
           hostname = "178.203.105.228";
           port = 2222;
           user = "jaro";
@@ -188,8 +193,8 @@
       bind = [
         # Basics
         "Mod1, Backspace, killactive"
-        "Mod1, Backslash, exec, google-chrome-stable"
-        "Mod1, Return, exec, ghostty"
+        "Mod1, Return, exec, google-chrome-stable"
+        "Mod1, Delete, exec, ghostty"
         # Focus
         "Mod1, h, movefocus, l"
         "Mod1, j, movefocus, d"
