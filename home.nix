@@ -192,8 +192,8 @@
       };
       bind = [
         # Basics
-        "Mod1, Delete, killactive"
-        "Mod1, Backspace, exec, google-chrome-stable"
+        "Mod1, Backspace, killactive"
+        "Mod1, Space, exec, google-chrome-stable"
         "Mod1, Return, exec, ghostty"
         # Focus
         "Mod1, h, movefocus, l"
