@@ -13,7 +13,7 @@
       "xt_socket"
     ];
     # Use the latest stable Linux kernel.
-    kernelPackages = pkgs.linuxPackages_testing;
+    kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
