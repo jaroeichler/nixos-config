@@ -149,7 +149,7 @@
             ControlPath = "~/.ssh/ctrl-%r@%h-%p";
             ControlPersist = "1800";
           };
-          hostname = "178.203.105.228";
+          hostname = "178.203.104.94";
           port = 2222;
           user = "jaro";
         };

@@ -4,6 +4,11 @@
   ...
 }: {
   boot = {
+    # Emulate ARM and RISC-V binaries.
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "riscv64-linux"
+    ];
     # Needed for Cilium gateways.
     kernelModules = [
       "iptable_filter"
@@ -12,7 +17,6 @@
       "iptable_raw"
       "xt_socket"
     ];
-    # Use the latest stable Linux kernel.
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       efi.canTouchEfiVariables = true;
@@ -68,12 +72,9 @@
     wireless.iwd.enable = true;
   };
 
-  # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
-  # Nix package manager configuration.
   nix = {
-    # Automatic garbage collection.
     gc = {
       automatic = true;
       dates = "weekly";
@@ -97,14 +98,19 @@
   };
 
   programs = {
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
     hyprland.enable = true;
     nix-ld.enable = true;
   };
 
-  # System services.
   services = {
     envfs.enable = true;
     fstrim.enable = true;
+    # Enable Yubikey smartcard mode.
+    pcscd.enable = true;
     pipewire = {
       alsa.enable = true;
       enable = true;
@@ -117,10 +123,23 @@
       enable = true;
       fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
     };
+    udev.packages = [pkgs.yubikey-personalization];
   };
 
-  # Enable real-time scheduling for Pipewire.
-  security.rtkit.enable = true;
+  security = {
+    # Login and sudo access with Yubikey.
+    pam.services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
+    # Enable real-time scheduling for Pipewire.
+    rtkit.enable = true;
+    tpm2 = {
+      enable = true;
+      pkcs11.enable = true;
+      tctiEnvironment.enable = true;
+    };
+  };
 
   # Do not change!
   system.stateVersion = "23.11";
@@ -129,8 +148,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
-    # Enable ‘sudo’ for the user.
-    extraGroups = ["docker" "wheel"];
+    extraGroups = ["docker" "tss" "wheel"];
     isNormalUser = true;
   };
 
