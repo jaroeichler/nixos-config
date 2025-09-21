@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -12,10 +11,12 @@
 
   home = {
     packages = with pkgs; [
+      bluetuith
       dust
       google-chrome
       hyperfine
       ouch
+      tdf
       termusic
     ];
     pointerCursor = {
@@ -136,25 +137,10 @@
     ripgrep = {
       arguments = [
         "--hidden"
+        "--glob=!*bazel.lock"
+        "--glob=!.git/*"
       ];
       enable = true;
-    };
-
-    ssh = {
-      enable = true;
-      matchBlocks = {
-        "home" = {
-          extraOptions = {
-            ControlMaster = "auto";
-            ControlPath = "~/.ssh/ctrl-%r@%h-%p";
-            ControlPersist = "1800";
-          };
-          hostname = "178.203.104.94";
-          port = 2222;
-          user = "jaro";
-        };
-      };
-      serverAliveInterval = 60;
     };
 
     starship = {
