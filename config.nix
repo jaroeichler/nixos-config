@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   boot = {
     # Emulate ARM and RISC-V binaries.
     binfmt.emulatedSystems = [
@@ -68,7 +64,7 @@
 
   networking = {
     firewall.enable = true;
-    nameservers = ["1.1.1.1" "8.8.8.8"];
+    useDHCP = false;
     wireless.iwd.enable = true;
   };
 
@@ -86,6 +82,9 @@
         "flakes"
         "nix-command"
       ];
+      secret-key-files = [
+        "/home/jaro/.ssh/nix_signing_key"
+      ];
       substituters = [
         "https://cache.nixos.org/"
         "https://nix-community.cachix.org"
@@ -93,6 +92,7 @@
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "home-1:qFs3ojerUzQGzA3vYdbLXObqXd1h5FBk3xzHozmgBKI="
       ];
     };
   };
@@ -121,7 +121,10 @@
       dnssec = "true";
       domains = ["~."];
       enable = true;
-      fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
+      extraConfig = ''
+        DNS=1.1.1.1 8.8.8.8
+      '';
+      fallbackDns = [];
     };
     udev.packages = [pkgs.yubikey-personalization];
   };
@@ -143,6 +146,19 @@
 
   # Do not change!
   system.stateVersion = "23.11";
+
+  systemd.network = {
+    enable = true;
+    networks."10-network" = {
+      dhcpV4Config.UseDNS = false;
+      dhcpV6Config.UseDNS = false;
+      ipv6AcceptRAConfig.UseDNS = false;
+      linkConfig.RequiredForOnline = "no";
+      matchConfig.Type = "ether wlan";
+      networkConfig.DHCP = "yes";
+    };
+    wait-online.enable = false;
+  };
 
   time.timeZone = "Europe/Berlin";
 

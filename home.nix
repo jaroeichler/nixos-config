@@ -40,6 +40,14 @@
 
     bottom.enable = true;
 
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        line-numbers = true;
+      };
+    };
+
     direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -77,26 +85,22 @@
         theme = "Monokai Pro";
         quick-terminal-animation-duration = 0;
         quit-after-last-window-closed = false;
+        window-inherit-working-directory = false;
       };
     };
 
     git = {
-      delta = {
-        enable = true;
-        options = {
-          navigate = true;
-          line-numbers = true;
-        };
-      };
       enable = true;
-      extraConfig = {
+      settings = {
         commit.gpgsign = true;
         gpg.format = "ssh";
         init.defaultBranch = "main";
-        user.signingkey = "~/.ssh/id_ed25519.pub";
+        user = {
+          email = "88505041+jaroeichler@users.noreply.github.com";
+          name = "jaroeichler";
+          signingkey = "~/.ssh/id_ed25519_sk.pub";
+        };
       };
-      userEmail = "88505041+jaroeichler@users.noreply.github.com";
-      userName = "jaroeichler";
     };
 
     helix = {
