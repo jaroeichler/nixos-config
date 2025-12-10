@@ -1,11 +1,12 @@
-{modulesPath, ...}: {
+{ modulesPath, ... }:
+{
   imports = [
     ./config.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   boot = {
-    extraModulePackages = [];
+    extraModulePackages = [ ];
     initrd = {
       availableKernelModules = [
         "ahci"
@@ -16,9 +17,12 @@
         "usbhid"
         "xhci_pci"
       ];
-      kernelModules = [];
+      kernelModules = [ ];
     };
-    kernelModules = ["amdgpu" "kvm-amd"];
+    kernelModules = [
+      "amdgpu"
+      "kvm-amd"
+    ];
   };
 
   hardware = {
@@ -27,8 +31,8 @@
 
   networking = {
     firewall = {
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
     };
     hostName = "home";
   };

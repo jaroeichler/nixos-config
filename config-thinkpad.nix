@@ -1,11 +1,12 @@
-{modulesPath, ...}: {
+{ modulesPath, ... }:
+{
   imports = [
     ./config.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   boot = {
-    extraModulePackages = [];
+    extraModulePackages = [ ];
     initrd = {
       availableKernelModules = [
         "nvme"
@@ -14,9 +15,9 @@
         "usb_storage"
         "xhci_pci"
       ];
-      kernelModules = [];
+      kernelModules = [ ];
     };
-    kernelModules = ["kvm-intel"];
+    kernelModules = [ "kvm-intel" ];
   };
 
   hardware = {
@@ -25,8 +26,8 @@
 
   networking = {
     firewall = {
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
     };
     hostName = "thinkpad";
   };

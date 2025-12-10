@@ -1,8 +1,5 @@
+{ lib, pkgs, ... }:
 {
-  lib,
-  pkgs,
-  ...
-}: {
   dconf.settings = {
     "org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
@@ -15,7 +12,9 @@
       dust
       google-chrome
       hyperfine
+      nautilus
       ouch
+      python3
       tdf
       termusic
     ];
@@ -23,7 +22,6 @@
       gtk.enable = true;
       package = pkgs.rose-pine-cursor;
       name = "BreezeX-RosePine-Linux";
-      hyprcursor.enable = true;
     };
     stateVersion = "23.11";
   };
@@ -60,9 +58,7 @@
 
     fd = {
       enable = true;
-      extraOptions = [
-        "--hidden"
-      ];
+      extraOptions = [ "--hidden" ];
     };
 
     ghostty = {
@@ -85,6 +81,7 @@
         theme = "Monokai Pro";
         quick-terminal-animation-duration = 0;
         quit-after-last-window-closed = false;
+        window-decoration = "none";
         window-inherit-working-directory = false;
       };
     };
@@ -106,15 +103,28 @@
     helix = {
       defaultEditor = true;
       enable = true;
+      languages = {
+        language = [
+          {
+            auto-format = true;
+            formatter.command = "nixfmt";
+            language-servers = [ "nil" ];
+            name = "nix";
+          }
+        ];
+      };
       settings = {
         editor = {
           bufferline = "multiple";
-          gutters = [];
-          rulers = [81];
+          gutters = [ ];
+          rulers = [ 81 ];
           soft-wrap.enable = true;
         };
         keys.normal = {
-          esc = ["collapse_selection" "keep_primary_selection"];
+          esc = [
+            "collapse_selection"
+            "keep_primary_selection"
+          ];
         };
         theme = "monokai_pro";
       };
@@ -138,11 +148,87 @@
       enable = true;
     };
 
+    niri.settings = {
+      animations.enable = false;
+      binds = {
+        "Alt+Backspace".action.close-window = [ ];
+        "Alt+Semicolon".action.open-overview = [ ];
+        "Alt+Delete".action.switch-preset-window-width = [ ];
+        "Alt+Space".action.spawn = lib.getExe pkgs.google-chrome;
+        "Alt+Return".action.spawn = lib.getExe pkgs.ghostty;
+        # Focus and move
+        "Alt+H".action.focus-column-left = [ ];
+        "Alt+L".action.focus-column-right = [ ];
+        "Alt+J".action.focus-workspace-down = [ ];
+        "Alt+K".action.focus-workspace-up = [ ];
+        "Alt+Shift+H".action.move-column-left = [ ];
+        "Alt+Shift+L".action.move-column-right = [ ];
+        "Alt+Shift+J".action.move-window-to-workspace-down = [ ];
+        "Alt+Shift+K".action.move-window-to-workspace-up = [ ];
+        # Volume
+        "XF86AudioLowerVolume".action.spawn = [
+          "wpctl"
+          "set-volume"
+          "@DEFAULT_AUDIO_SINK@"
+          "0.02-"
+        ];
+        "XF86AudioMute".action.spawn = [
+          "wpctl"
+          "set-mute"
+          "@DEFAULT_AUDIO_SINK@"
+          "toggle"
+        ];
+        "XF86AudioRaiseVolume".action.spawn = [
+          "wpctl"
+          "set-volume"
+          "@DEFAULT_AUDIO_SINK@"
+          "0.02+"
+        ];
+      };
+      cursor.size = 36;
+      gestures.hot-corners.enable = false;
+      hotkey-overlay.skip-at-startup = true;
+      input = {
+        keyboard.xkb.options = "caps:escape";
+        mouse.accel-profile = "flat";
+      };
+      layout = {
+        background-color = "#2D2A2E";
+        border.enable = false;
+        default-column-width = {
+          proportion = 1.0 / 3.0;
+        };
+        empty-workspace-above-first = true;
+        focus-ring.enable = false;
+        gaps = 0;
+        preset-column-widths = [
+          { proportion = 1.0 / 3.0; }
+          { proportion = 1.0; }
+        ];
+      };
+      outputs."DP-1".scale = 1;
+      overview.backdrop-color = "#2D2A2E";
+      prefer-no-csd = true;
+      window-rules = [
+        {
+          clip-to-geometry = true;
+          geometry-corner-radius = {
+            top-left = 0.0;
+            top-right = 0.0;
+            bottom-left = 0.0;
+            bottom-right = 0.0;
+          };
+        }
+      ];
+      xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite-unstable;
+    };
+
     ripgrep = {
       arguments = [
         "--hidden"
         "--glob=!*bazel.lock"
         "--glob=!.git/*"
+        "--smart-case"
       ];
       enable = true;
     };
@@ -168,85 +254,6 @@
 
     zoxide = {
       enable = true;
-    };
-  };
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    package = null;
-    portalPackage = null;
-    systemd.variables = ["--all"];
-    settings = {
-      animations = {
-        enabled = false;
-      };
-      bind = [
-        # Basics
-        "Mod1, Backspace, killactive"
-        "Mod1, Space, exec, google-chrome-stable"
-        "Mod1, Return, exec, ghostty"
-        # Focus
-        "Mod1, h, movefocus, l"
-        "Mod1, j, movefocus, d"
-        "Mod1, k, movefocus, u"
-        "Mod1, l, movefocus, r"
-        # Move window
-        "Mod1 SHIFT, h, movewindow, l"
-        "Mod1 SHIFT, j, movewindow, d"
-        "Mod1 SHIFT, k, movewindow, u"
-        "Mod1 SHIFT, l, movewindow, r"
-        # Volume
-        ", XF86AudioLowerVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-"
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-        # Workspaces
-        "Mod1, 1, workspace, 1"
-        "Mod1, 2, workspace, 2"
-        "Mod1, 3, workspace, 3"
-        "Mod1, 4, workspace, 4"
-        "Mod1, 5, workspace, 5"
-        "Mod1, 6, workspace, 6"
-        "Mod1, 7, workspace, 7"
-        "Mod1, 8, workspace, 8"
-        "Mod1, 9, workspace, 9"
-        "Mod1, 0, workspace, 10"
-        "Mod1 SHIFT, 1, movetoworkspace, 1"
-        "Mod1 SHIFT, 2, movetoworkspace, 2"
-        "Mod1 SHIFT, 3, movetoworkspace, 3"
-        "Mod1 SHIFT, 4, movetoworkspace, 4"
-        "Mod1 SHIFT, 5, movetoworkspace, 5"
-        "Mod1 SHIFT, 6, movetoworkspace, 6"
-        "Mod1 SHIFT, 7, movetoworkspace, 7"
-        "Mod1 SHIFT, 8, movetoworkspace, 8"
-        "Mod1 SHIFT, 9, movetoworkspace, 9"
-        "Mod1 SHIFT, 0, movetoworkspace, 10"
-      ];
-      decoration = {
-        blur.enabled = false;
-        shadow.enabled = false;
-      };
-      dwindle = {
-        force_split = 2;
-      };
-      general = {
-        border_size = 0;
-        gaps_in = 0;
-        gaps_out = 0;
-        no_border_on_floating = true;
-      };
-      group = {
-        auto_group = false;
-      };
-      input = {
-        kb_options = "caps:escape";
-      };
-      misc = {
-        background_color = "0x2D2A2E";
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-        vfr = true;
-      };
-      monitor = [",preferred, auto, 1"];
     };
   };
 }

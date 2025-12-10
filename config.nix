@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   boot = {
     # Emulate ARM and RISC-V binaries.
     binfmt.emulatedSystems = [
@@ -13,7 +14,7 @@
       "iptable_raw"
       "xt_socket"
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_testing;
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
@@ -22,15 +23,13 @@
 
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
-    systemPackages = with pkgs; [
-      wl-clipboard
-    ];
+    systemPackages = with pkgs; [ wl-clipboard ];
   };
 
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
-      options = ["noatime"];
+      options = [ "noatime" ];
     };
     "/boot" = {
       device = "/dev/disk/by-label/boot";
@@ -41,7 +40,7 @@
     jetbrains-mono
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
   ];
 
   hardware = {
@@ -57,7 +56,6 @@
     };
     enableAllFirmware = true;
     graphics.enable = true;
-    xpadneo.enable = true;
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -67,8 +65,6 @@
     useDHCP = false;
     wireless.iwd.enable = true;
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   nix = {
     gc = {
@@ -82,9 +78,7 @@
         "flakes"
         "nix-command"
       ];
-      secret-key-files = [
-        "/home/jaro/.ssh/nix_signing_key"
-      ];
+      secret-key-files = [ "/home/jaro/.ssh/nix_signing_key" ];
       substituters = [
         "https://cache.nixos.org/"
         "https://nix-community.cachix.org"
@@ -102,7 +96,10 @@
       enable = true;
       enableSSHSupport = true;
     };
-    hyprland.enable = true;
+    niri = {
+      enable = true;
+      package = pkgs.niri-unstable;
+    };
     nix-ld.enable = true;
   };
 
@@ -119,21 +116,38 @@
     resolved = {
       dnsovertls = "true";
       dnssec = "true";
-      domains = ["~."];
+      domains = [ "~." ];
       enable = true;
       extraConfig = ''
         DNS=1.1.1.1 8.8.8.8
       '';
-      fallbackDns = [];
+      fallbackDns = [ ];
     };
-    udev.packages = [pkgs.yubikey-personalization];
+    udev.packages = [ pkgs.yubikey-personalization ];
   };
 
   security = {
-    # Login and sudo access with Yubikey.
-    pam.services = {
-      login.u2fAuth = true;
-      sudo.u2fAuth = true;
+    pam = {
+      # Fix out of memory for flamegraph.
+      loginLimits = [
+        {
+          domain = "*";
+          type = "-";
+          item = "memlock";
+          value = "524288";
+        }
+        {
+          domain = "*";
+          type = "soft";
+          item = "nofile";
+          value = "8192";
+        }
+      ];
+      # Login and sudo access with Yubikey.
+      services = {
+        login.u2fAuth = true;
+        sudo.u2fAuth = true;
+      };
     };
     # Enable real-time scheduling for Pipewire.
     rtkit.enable = true;
@@ -164,7 +178,11 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jaro = {
-    extraGroups = ["docker" "tss" "wheel"];
+    extraGroups = [
+      "docker"
+      "tss"
+      "wheel"
+    ];
     isNormalUser = true;
   };
 
