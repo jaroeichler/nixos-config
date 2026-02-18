@@ -14,7 +14,7 @@
       "iptable_raw"
       "xt_socket"
     ];
-    kernelPackages = pkgs.linuxPackages_testing;
+    kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
@@ -56,6 +56,7 @@
     };
     enableAllFirmware = true;
     graphics.enable = true;
+    xpadneo.enable = true;
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -114,14 +115,16 @@
       pulse.enable = true;
     };
     resolved = {
-      dnsovertls = "true";
-      dnssec = "true";
-      domains = [ "~." ];
       enable = true;
-      extraConfig = ''
-        DNS=1.1.1.1 8.8.8.8
-      '';
-      fallbackDns = [ ];
+      settings.Resolve = {
+        DNS = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+        DNSOverTLS = true;
+        DNSSEC = true;
+        Domains = [ "~." ];
+      };
     };
     udev.packages = [ pkgs.yubikey-personalization ];
   };
@@ -186,7 +189,5 @@
     isNormalUser = true;
   };
 
-  virtualisation.docker = {
-    enable = true;
-  };
+  virtualisation.docker.enable = true;
 }

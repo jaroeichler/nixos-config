@@ -13,7 +13,7 @@
       google-chrome
       hyperfine
       nautilus
-      ouch
+      (pkgs.ouch.override { enableUnfree = true; })
       python3
       tdf
       termusic
@@ -108,7 +108,7 @@
           {
             auto-format = true;
             formatter.command = "nixfmt";
-            language-servers = [ "nil" ];
+            language-servers = [ "nixd" ];
             name = "nix";
           }
         ];
@@ -117,7 +117,7 @@
         editor = {
           bufferline = "multiple";
           gutters = [ ];
-          rulers = [ 81 ];
+          rulers = [ 80 ];
           soft-wrap.enable = true;
         };
         keys.normal = {

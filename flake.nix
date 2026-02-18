@@ -59,7 +59,7 @@
       devShells.${system}.default = pkgs.mkShell {
         inherit (hooks) shellHook;
         packages = with pkgs; [
-          nil
+          nixd
           nixfmt
         ];
       };
