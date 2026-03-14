@@ -65,6 +65,7 @@
       clearDefaultKeybinds = true;
       enable = true;
       settings = {
+        clipboard-paste-protection = false;
         confirm-close-surface = false;
         cursor-style = "block";
         cursor-style-blink = false;
@@ -75,9 +76,13 @@
           "alt+p=paste_from_clipboard"
           "alt+u=scroll_page_up"
           "alt+d=scroll_page_down"
-          "alt+e=write_screen_file:paste"
+          "alt+slash=start_search"
         ];
         resize-overlay = "never";
+        right-click-action = "ignore";
+        scrollbar = "never";
+        shell-integration = "bash";
+        shell-integration-features = "no-cursor";
         theme = "Monokai Pro";
         quick-terminal-animation-duration = 0;
         quit-after-last-window-closed = false;
